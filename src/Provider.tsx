@@ -5,15 +5,14 @@ import { trpc } from "./trpc";
 import { t } from "./hyper-revpop/trpc";
 import { router } from "./hyper-revpop/router";
 
+const createCaller = t.createCallerFactory(router);
+export const trpcRevpopClient = createCaller({});
+
 export const Provider: React.FC<React.PropsWithChildren> = (props) => {
   const [queryClient] = React.useState(() => new QueryClient());
-  const [trpcClient] = React.useState(() => {
-    const createCaller = t.createCallerFactory(router);
-    return createCaller({});
-  });
 
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
+    <trpc.Provider client={trpcRevpopClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>{props.children}</QueryClientProvider>
     </trpc.Provider>
   );
